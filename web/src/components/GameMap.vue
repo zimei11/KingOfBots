@@ -17,5 +17,6 @@ div.gamemap{
   display: flex;
   justify-content: center;
   align-items: center;
+  background-color: blanchedalmond;
 }
 </style>
