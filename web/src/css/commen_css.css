@@ -1,0 +1,22 @@
+html,body{
+     /*background-color: #f2f2f5;*/
+    /* background-image: url('https://img.zimei.xyz/202207101321009.jpg');
+    background-position-x: initial;
+    background-position-y: initial;
+    background-attachment: fixed;
+    background-origin: initial;
+    background-clip: initial;
+    background-color: white;
+    background-size: 100% 100%; */
+    height: 100%;
+    margin: 0px;
+    padding: 0px;
+}
+
+#app{
+    height: 100%;
+}
+
+.el-alert {
+    margin-bottom: 20px;
+}
