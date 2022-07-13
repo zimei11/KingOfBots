@@ -44,7 +44,7 @@ import TopMenuVue from './menu/TopMenu.vue';
   width: 480px;
 }
 
-.el-container{
-  margin:8px;
-}
+/*.el-container{*/
+/*  margin:8px;*/
+/*}*/
 </style>

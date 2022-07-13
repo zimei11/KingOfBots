@@ -1,22 +1,20 @@
 <template>
-  <br>
-  <div class="button_center">
-    <el-button type="primary" class="button" @click="cancel">返回</el-button>
+  <div class="common-layout">
+    <el-container>
+      <el-header>
+        <TopMenu/>
+      </el-header>
+    </el-container>
   </div>
+
   <PlayGround/>
 </template>
 
 <script setup>
 import PlayGround from "@/components/PlayGround";
-import router from "@/router/index";
-
-const cancel = () => {
-  router.push({name: 'home'});
-}
+import TopMenu from "@/components/menu/TopMenu";
 </script>
 
 <style scoped>
-.button_center{
-  text-align: center;
-}
+
 </style>
