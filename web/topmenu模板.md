@@ -1,3 +1,5 @@
+## top-menu模板
+
 ```vue
 <template>
   <el-menu :default-active="activeIndex" class="el-menu-demo" mode="horizontal" :ellipsis="false" router
@@ -56,3 +58,10 @@ const handleSelect = (key, keyPath) => {
 }
 </style>
 ```
+
+## 阴影
+
+```css
+style="box-shadow: 3px 5px 5px #efefef;"
+```
+
