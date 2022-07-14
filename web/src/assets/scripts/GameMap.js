@@ -31,7 +31,16 @@ export class GameMap extends AcGameObject {
     }
 
     render(){
-        this.ctx.fillStyle = 'green';
-        this.ctx.fillRect(0, 0, this.ctx.canvas.width, this.ctx.canvas.height);
+        const color_even="#aad751",color_odd="#a2d149";
+        for(let r=0;r<this.rows;r++){
+            for(let c=0;c<this.cols;c++){
+                if((r+c)%2==0){
+                    this.ctx.fillStyle=color_even;
+                }else{
+                    this.ctx.fillStyle=color_odd;
+                }
+                this.ctx.fillRect(c*this.L,r*this.L,this.L,this.L);
+            }
+        }
     }
 }
