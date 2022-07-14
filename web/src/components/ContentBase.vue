@@ -2,9 +2,7 @@
   <div class="common-layout">
     <el-container>
       <el-affix :offset="0">
-        <el-header>
-          <TopMenuVue />
-        </el-header>
+        <TopMenuVue/>
       </el-affix>
       <el-main>
         <el-row :gutter="0">
@@ -16,12 +14,12 @@
         </el-row>
       </el-main>
       <el-footer>
-        <FooterMenuVue />
+        <FooterMenuVue/>
       </el-footer>
     </el-container>
   </div>
   <!-- 回到顶部 -->
-  <el-backtop :right="20" :bottom="100"  />
+  <el-backtop :right="20" :bottom="100"/>
 </template>
 
 <script setup>

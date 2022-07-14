@@ -1,14 +1,6 @@
 <template>
   <div class="background_style">
-    <div class="common-layout">
-      <el-container>
-        <el-header>
-          <TopMenu/>
-        </el-header>
-      </el-container>
-    </div>
-
-
+    <TopMenu/>
     <PlayGround/>
   </div>
 </template>

@@ -1,6 +1,7 @@
 <template>
   <el-menu :default-active="activeIndex" class="el-menu-demo" mode="horizontal" :ellipsis="false" router
            @select="handleSelect">
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
     <el-menu-item index="1" route="/">Bots ZiMei</el-menu-item>
 
     <!--下拉菜单响应式-->
@@ -31,6 +32,9 @@
         <Moon/>
       </el-icon>
     </el-button>
+
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+
   </el-menu>
 </template>
 
