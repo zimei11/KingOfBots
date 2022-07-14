@@ -65,3 +65,9 @@ const handleSelect = (key, keyPath) => {
 style="box-shadow: 3px 5px 5px #efefef;"
 ```
 
+```css
+background-color="#545c64"
+text-color="#fff"
+active-text-color="#ffd04b"
+@select="handleSelect" style="border-bottom-color: #4c4d4f">
+```
