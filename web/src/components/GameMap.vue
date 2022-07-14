@@ -34,6 +34,6 @@ div.gamemap {
   display: flex;
   justify-content: center;
   align-items: center;
-  background-color: lightblue;
+  /*background-color: lightblue;*/
 }
 </style>
