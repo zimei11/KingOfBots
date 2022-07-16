@@ -65,10 +65,10 @@ export class GameMap extends AcGameObject {
             for (let j = 0; j < 1000; j++) {
                 let r = parseInt(Math.random() * this.rows);
                 let c = parseInt(Math.random() * this.cols);
-                if (g[r][c] || g[this.rows-1-r][this.cols-1-c]) continue;
+                if (g[r][c] || g[this.rows - 1 - r][this.cols - 1 - c]) continue;
                 if (r === this.rows - 2 && c === 1 || r === 1 && c === this.cols - 2) continue;
 
-                g[r][c] = g[this.rows-1-r][this.cols-1-c] = true;
+                g[r][c] = g[this.rows - 1 - r][this.cols - 1 - c] = true;
                 break;
             }
         }
@@ -145,6 +145,29 @@ export class GameMap extends AcGameObject {
         for (const snake of this.snakes) {
             snake.next_step();
         }
+    }
+
+    check_valid(cell) {//检测目标位置是否合法
+        for (const wall of this.walls) {
+            if (wall.r === cell.r && wall.c === cell.c) {
+                return false;
+            }
+        }
+
+        for (const snake of this.snakes) {
+            //蛇尾要不要缩小
+            let k = snake.cells.length;
+            if (!snake.check_tail_increasing()) {//蛇尾前进
+                k--;
+            }
+            for (let i = 0; i < k; i++) {
+                if (snake.cells[i].r === cell.r && snake.cells[i].c === cell.c) {
+                    return false;
+                }
+            }
+        }
+
+        return true;
     }
 
     update() {

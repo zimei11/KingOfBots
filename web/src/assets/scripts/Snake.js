@@ -48,6 +48,10 @@ export class Snake extends AcGameObject {
         for (let i = k; i > 0; i--) {
             this.cells[i] = JSON.parse(JSON.stringify(this.cells[i - 1]));
         }
+
+        if (!this.gamemap.check_valid(this.next_cell)) {//蛇位置非法
+            this.status = "die";
+        }
     }
 
     update_move() {
@@ -92,6 +96,9 @@ export class Snake extends AcGameObject {
         const ctx = this.gamemap.ctx;
 
         ctx.fillStyle = this.color;
+        if(this.status==="die"){
+            ctx.fillStyle="white";
+        }
         for (const cell of this.cells) {
             ctx.beginPath();
             ctx.arc(cell.x * L, cell.y * L, L / 2 * 0.8, 0, Math.PI * 2);
@@ -99,15 +106,14 @@ export class Snake extends AcGameObject {
         }
 
         for (let i = 1; i < this.cells.length; i++) {
-            const a=this.cells[i-1],b=this.cells[i];
-            if(Math.abs(a.x-b.x)<this.eps&&Math.abs(a.y-b.y)<this.eps)
-            {
+            const a = this.cells[i - 1], b = this.cells[i];
+            if (Math.abs(a.x - b.x) < this.eps && Math.abs(a.y - b.y) < this.eps) {
                 continue;
             }
-            if(Math.abs(a.x-b.x)<this.eps){
-                ctx.fillRect((a.x-0.4)*L,Math.min(a.y,b.y)*L,L*0.8,Math.abs(a.y-b.y)*L);
-            }else{
-                ctx.fillRect(Math.min(a.x,b.x)*L,(a.y-0.4)*L,Math.abs(a.x-b.x)*L,L*0.8);
+            if (Math.abs(a.x - b.x) < this.eps) {
+                ctx.fillRect((a.x - 0.4) * L, Math.min(a.y, b.y) * L, L * 0.8, Math.abs(a.y - b.y) * L);
+            } else {
+                ctx.fillRect(Math.min(a.x, b.x) * L, (a.y - 0.4) * L, Math.abs(a.x - b.x) * L, L * 0.8);
             }
         }
     }
