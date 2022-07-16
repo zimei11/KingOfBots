@@ -21,6 +21,22 @@ export class Snake extends AcGameObject {
 
         this.step = 0;
         this.eps = 1e-2;//允许的误差
+
+        this.eye_direction=0;
+        if(this.id===1) this.eye_direction=2;//左下角的蛇初始朝上
+
+        this.eye_dx=[//蛇眼偏移量
+            [-1,1],
+            [1,1],
+            [1,-1],
+            [-1,-1],
+        ];
+        this.eye_dy=[//蛇眼偏移量
+            [-1,-1],
+            [-1,1],
+            [1,1],
+            [1,-1],
+        ];
     }
 
     start() {
@@ -40,6 +56,7 @@ export class Snake extends AcGameObject {
     next_step() {//将蛇的状态变为走下一步
         const d = this.direction;
         this.next_cell = new Cell(this.cells[0].r + this.dr[d], this.cells[0].c + this.dc[d]);
+        this.eye_direction=d;
         this.direction = -1;
         this.status = "move";
         this.step++;
@@ -52,6 +69,8 @@ export class Snake extends AcGameObject {
         if (!this.gamemap.check_valid(this.next_cell)) {//蛇位置非法
             this.status = "die";
         }
+
+
     }
 
     update_move() {
@@ -115,6 +134,16 @@ export class Snake extends AcGameObject {
             } else {
                 ctx.fillRect(Math.min(a.x, b.x) * L, (a.y - 0.4) * L, Math.abs(a.x - b.x) * L, L * 0.8);
             }
+        }
+
+        ctx.fillStyle="black";
+        for (let i = 0; i < 2; i++) {
+            const eye_x=(this.cells[0].x+this.eye_dx[this.eye_direction][i]*0.15)*L;
+            const eye_y=(this.cells[0].y+this.eye_dy[this.eye_direction][i]*0.15)*L;
+
+            ctx.beginPath();
+            ctx.arc(eye_x,eye_y,L*0.05,0,2*Math.PI);
+            ctx.fill();
         }
     }
 }
