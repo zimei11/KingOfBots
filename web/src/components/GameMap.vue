@@ -1,6 +1,6 @@
 <template>
   <div ref="parent" class="gamemap">
-    <canvas ref="canvas"></canvas>
+    <canvas ref="canvas" tabindex="0"></canvas>
   </div>
 </template>
 
@@ -15,8 +15,8 @@ export default {
     let canvas = ref(null);
 
     //组件挂载完需要执行的哪些操作
-    onMounted(()=>{
-      new GameMap(canvas.value.getContext('2d'),parent.value);
+    onMounted(() => {
+      new GameMap(canvas.value.getContext('2d'), parent.value);
     })
 
     return {
