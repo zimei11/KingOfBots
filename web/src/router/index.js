@@ -35,7 +35,7 @@ const routes = [
         component: UserBotIndexView,
     },
     {
-        path:"/user/account/login",
+        path:"/user/account/login/",
         name:"user_account_login",
         component: UserAccountLoginView,
     },
