@@ -15,7 +15,7 @@ import java.util.UUID;
 @Component
 public class JwtUtil {
     public static final long JWT_TTL = 60 * 60 * 1000L * 24 * 14;  // 有效期14天
-    public static final String JWT_KEY = "SDFGjhdsfalshdfHFdsjkdsfds121232131afasdfac";
+    public static final String JWT_KEY = "SDFGjhdsfalshdfHFdsjkdsfds121232131afasdfaclxs";
 
     public static String getUUID() {
         return UUID.randomUUID().toString().replaceAll("-", "");
