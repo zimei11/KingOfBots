@@ -21,7 +21,7 @@
                   <el-input type="password" v-model="password" placeholder="输入密码"/>
                 </el-form-item>
                 <el-form-item label="确定密码">
-                  <el-input type="password" v-model="password_confirm" placeholder="再次输入密码"/>
+                  <el-input type="password" v-model="confirmedPassword" placeholder="再次输入密码"/>
                 </el-form-item>
                 <p style="color:red" class="error-message">{{ error_message }}</p>
                 <el-form-item>
@@ -54,33 +54,37 @@ import $ from 'jquery';
 const store = useStore();
 let username = ref('');
 let password = ref('');
-let password_confirm = ref('');
+let confirmedPassword = ref('');
 let error_message = ref('');
 
 const register = () => {
   error_message.value = "";
   $.ajax({
-    url: "https://app165.acapp.acwing.com.cn/myspace/user/",
+    url: "http://localhost:3000/user/account/register/",
     type: "POST",
     data: {
       username: username.value,
       password: password.value,
-      password_confirm: password_confirm.value,
+      confirmedPassword: confirmedPassword.value,
     },
     success(resp) {
-      if (resp.result === "success") {
+      if (resp.error_message === "success") {
         store.dispatch("login", {
           username: username.value,
           password: password.value,
           success() {
-            router.push({name: 'userlist'});
+            store.dispatch("getinfo", {
+              success() {
+                router.push({name: 'home'});
+              },
+              error() {
+                error_message.value = "系统异常，请稍后重试";
+              },
+            })
           },
-          error() {
-            error_message.value = "系统异常，请稍后重试";
-          }
         });
       } else {
-        error_message.value = resp.result;
+        error_message.value = resp.error_message;
       }
     }
   })
