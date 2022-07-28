@@ -18,10 +18,10 @@
                   <el-input type="text" v-model="username" placeholder="输入用户名"/>
                 </el-form-item>
                 <el-form-item label="密码">
-                  <el-input type="password" v-model="password" placeholder="输入密码"/>
+                  <el-input type="password" v-model="password" placeholder="输入密码（不少于6位）"/>
                 </el-form-item>
                 <el-form-item label="确定密码">
-                  <el-input type="password" v-model="confirmedPassword" placeholder="再次输入密码"/>
+                  <el-input type="password" v-model="confirmedPassword" placeholder="再次输入密码（不少于6位）"/>
                 </el-form-item>
                 <p style="color:red" class="error-message">{{ error_message }}</p>
                 <el-form-item>

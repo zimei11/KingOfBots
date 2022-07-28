@@ -1,6 +1,5 @@
 <template>
-  <el-menu :default-active="activeIndex" class="el-menu-demo" mode="horizontal" :ellipsis="false" router
-           @select="handleSelect">
+  <el-menu :default-active="activeIndex" class="el-menu-demo" mode="horizontal" :ellipsis="false" router>
     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
     <el-menu-item index="1" route="/">Bots ZiMei</el-menu-item>
 
@@ -53,10 +52,6 @@ import {useStore} from "vuex";
 
 const route = useRoute();
 const activeIndex = route.path;
-
-const handleSelect = (key, keyPath) => {
-  console.log(key, keyPath);
-}
 
 const store = useStore();
 const logout = () => {

@@ -43,13 +43,13 @@ public class RegisterServiceImpl implements RegisterService {
             return map;
         }
 
-        if(password.length()==0||confirmedPassword.length()==0){
+        if (password.length() == 0 || confirmedPassword.length() == 0) {
             map.put("error_message", "密码不能为空");
             return map;
         }
 
-        if(username.length()>100){
-            map.put("error_message","用户名长度不能大于100");
+        if (username.length() > 100) {
+            map.put("error_message", "用户名长度不能大于100");
             return map;
         }
 
@@ -58,10 +58,15 @@ public class RegisterServiceImpl implements RegisterService {
             return map;
         }
 
-        if (!password.equals(confirmedPassword)) {
-            map.put("error_message", "两次输入的密码不一致");
+        if (password.length() < 6 || confirmedPassword.length() < 6){
+            map.put("error_message", "密码长度不能小于6位");
             return map;
         }
+
+            if (!password.equals(confirmedPassword)) {
+                map.put("error_message", "两次输入的密码不一致");
+                return map;
+            }
 
         //查询数据库里是否有用户名等于username的用户
         QueryWrapper<User> userQueryWrapper = new QueryWrapper<>();
