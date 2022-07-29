@@ -55,7 +55,7 @@ const activeIndex = route.path;
 
 const store = useStore();
 const logout = () => {
-  store.commit("logout");
+  store.dispatch("logout");
 };
 </script>
 

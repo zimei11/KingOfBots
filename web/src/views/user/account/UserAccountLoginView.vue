@@ -1,5 +1,5 @@
 <template>
-  <div class="common-layout">
+  <div class="common-layout" v-if="!store.state.user.pulling_info">
 
     <el-container>
 
@@ -54,6 +54,23 @@ let error_message = ref("");
 
 const cancel = () => {
   router.push({name: 'home'});
+}
+
+//每次刷新网页，如果登录过会跳转到首页
+const jwt_token=localStorage.getItem("jwt_token");
+if(jwt_token){
+  store.commit("updateToken",jwt_token);
+  store.dispatch("getinfo",{
+    success(){
+      router.push({name:"home"});
+      store.commit("updatePullingInfo",false);
+    },
+    error(){
+      store.commit("updatePullingInfo",false);
+    }
+  })
+}else{
+  store.commit("updatePullingInfo",false);
 }
 
 const login = () => {
