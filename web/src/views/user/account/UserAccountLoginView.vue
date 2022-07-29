@@ -31,6 +31,11 @@
                   </el-col>
                 </el-form-item>
               </el-form>
+
+              <div class="register">
+                还没有账号？去&nbsp;<el-link type="primary" @click="toRegister">注册</el-link>
+              </div>
+
             </el-card>
           </el-col>
           <el-col :xs="6" :sm="8" :md="9">
@@ -54,6 +59,10 @@ let error_message = ref("");
 
 const cancel = () => {
   router.push({name: 'home'});
+}
+
+const toRegister=()=>{
+  router.push({name:'user_account_register'})
 }
 
 //每次刷新网页，如果登录过会跳转到首页
@@ -115,4 +124,8 @@ const login = () => {
     background-image: url('https://img.zimei.xyz/202207101321009.jpg');
     background-size:100%;
 } */
+
+.register{
+  text-align: center;
+}
 </style>
