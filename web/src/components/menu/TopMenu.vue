@@ -20,9 +20,6 @@
 
     <div class="flex-grow"></div>
 
-    <el-menu-item index="/user/account/login/" v-if="!$store.state.user.is_login">登录</el-menu-item>
-    <el-menu-item index="/user/account/register/" v-if="!$store.state.user.is_login">注册</el-menu-item>
-
     <el-sub-menu index="3" v-if="$store.state.user.is_login">
       <template #title>
         <img class="img-fluid" :src=$store.state.user.photo alt="头像">
@@ -31,6 +28,9 @@
       <el-menu-item index="/user/bot/" route="/user/bot/">我的Bot</el-menu-item>
       <el-menu-item index="3.2" route="/" @click="logout" v-if="$store.state.user.is_login">退出</el-menu-item>
     </el-sub-menu>
+
+    <el-menu-item index="/user/account/login/" v-if="!$store.state.user.is_login&&!$store.state.user.pulling_info">登录</el-menu-item>
+    <el-menu-item index="/user/account/register/" v-if="!$store.state.user.is_login&&!$store.state.user.pulling_info">注册</el-menu-item>
 
     <el-button circle @click="toggleDark()" style="margin-top:10px;margin-left:10px;margin-right:10px">
       <el-icon>
