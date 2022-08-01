@@ -121,7 +121,7 @@ const login = () => {
 }
 
 /* .el-card{
-    background-image: url('https://img.zimei.xyz/202207101321009.jpg');
+    background-image: url('https://img.zimei.fun/202207101321009.jpg');
     background-size:100%;
 } */
 

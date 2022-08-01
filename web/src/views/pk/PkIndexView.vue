@@ -14,7 +14,7 @@ import TopMenu from "@/components/menu/TopMenu";
 .background_style {
   height: 100%;
 
-  background-image: url("https://img.zimei.xyz/202201272327591.jpg");
+  background-image: url("https://img.zimei.fun/202201272327591.jpg");
   /* 背景图垂直、水平均居中 */
   background-position: center center;
   /* 背景图不平铺 */
