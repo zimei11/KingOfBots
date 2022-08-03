@@ -17,9 +17,9 @@
         <el-table-column prop="modifyTime" label="修改时间" width="165"/>
         <el-table-column fixed="right" label="操作" width="120">
           <template #default="scope">
-            <el-button link type="primary" @click="updateBot(scope.row)">
-              修改
-            </el-button>
+
+           <UpdateBot :row="scope.row" @refresh_bots="refresh_bots"></UpdateBot>
+
             <el-popconfirm title="你确定要删除这个Bot?"
                            confirm-button-text="删除"
                            confirm-button-type="danger"
@@ -47,10 +47,11 @@ import {useStore} from "vuex";
 import $ from 'jquery';
 import AddBot from "@/components/userbot/botlistdetail/AddBot";
 import {InfoFilled} from '@element-plus/icons-vue'
+import UpdateBot from "@/components/userbot/botlistdetail/UpdateBot";
 
 export default {
   name: "BotList",
-  components: {AddBot},
+  components: {UpdateBot, AddBot},
   setup() {
     const store = useStore();
     let bots = ref([]);
@@ -70,9 +71,6 @@ export default {
 
     refresh_bots();
 
-    const updateBot = () => {
-      console.log('click')
-    }
 
     const removeBot = (row) => {
       //console.log(row);
@@ -94,7 +92,6 @@ export default {
     }
 
     return {
-      updateBot,
       bots,
       refresh_bots,
       removeBot,
