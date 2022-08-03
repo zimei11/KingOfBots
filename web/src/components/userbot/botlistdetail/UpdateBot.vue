@@ -32,10 +32,10 @@
             v-model:value="botUpdate.content"
             lang="c_cpp"
             :options="{
-              fontSize: 18,
+              fontSize: 16,
             }"
             theme="textmate"
-            style="height: 150px"/>
+            style="height: 250px"/>
 
         <p style="color:red" class="error-message">{{ botUpdate.error_message }}</p>
       </el-form>

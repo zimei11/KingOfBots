@@ -62,6 +62,7 @@ const successMessage=()=>{
   ElNotification({
     title: '新的开始',
     message: h('i', { style: 'color: teal' }, '欢迎你的加入'),
+    position: 'bottom-right',
   })
 }
 
