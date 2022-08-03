@@ -19,7 +19,7 @@
             <el-button link type="primary" @click="handleClick">
               修改
             </el-button>
-            <el-button link type="danger">删除</el-button>
+            <RemoveBot :bots="bots" @refresh_bots="refresh_bots"></RemoveBot>
           </template>
         </el-table-column>
       </el-table>
@@ -32,10 +32,11 @@ import {ref} from "vue";
 import {useStore} from "vuex";
 import $ from 'jquery';
 import AddBot from "@/components/userbot/botlistdetail/AddBot";
+import RemoveBot from "@/components/userbot/botlistdetail/RemoveBot";
 
 export default {
   name: "BotList",
-  components: {AddBot},
+  components: {RemoveBot, AddBot},
   setup() {
     const store = useStore();
     let bots = ref([]);
