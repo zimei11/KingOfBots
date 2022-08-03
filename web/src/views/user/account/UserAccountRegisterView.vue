@@ -46,16 +46,24 @@
 </template>
 
 <script setup>
-import {ref} from 'vue';
+import {h, ref} from 'vue';
 import {useStore} from 'vuex';
 import router from '@/router/index';
 import $ from 'jquery';
+import {ElNotification} from "element-plus";
 
 const store = useStore();
 let username = ref('');
 let password = ref('');
 let confirmedPassword = ref('');
 let error_message = ref('');
+
+const successMessage=()=>{
+  ElNotification({
+    title: '新的开始',
+    message: h('i', { style: 'color: teal' }, '欢迎你的加入'),
+  })
+}
 
 const register = () => {
   error_message.value = "";
@@ -76,6 +84,7 @@ const register = () => {
             store.dispatch("getinfo", {
               success() {
                 router.push({name: 'home'});
+                successMessage();
               },
               error() {
                 error_message.value = "系统异常，请稍后重试";
