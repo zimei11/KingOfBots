@@ -21,19 +21,22 @@
               placeholder="请输入Bot简介"
               show-word-limit
               type="textarea"
-              rows="3"
+              rows="2"
           />
         </el-form-item>
-        <el-form-item label="Bot代码">
-          <el-input
-              v-model="botUpdate.content"
-              maxlength="10000"
-              placeholder="请输入Bot代码"
-              show-word-limit
-              type="textarea"
-              rows="7"
-          />
-        </el-form-item>
+
+        <p>Bot代码</p>
+        <!--        <el-form-item label="Bot代码">-->
+        <!--        </el-form-item>-->
+        <VAceEditor
+            v-model:value="botUpdate.content"
+            lang="c_cpp"
+            :options="{
+              fontSize: 18,
+            }"
+            theme="textmate"
+            style="height: 150px"/>
+
         <p style="color:red" class="error-message">{{ botUpdate.error_message }}</p>
       </el-form>
       <template #footer>
@@ -41,7 +44,7 @@
               <el-button @click="add_bot" type="primary">
                 确定
               </el-button>
-              <el-button id="cancelButton" @click="dialogVisible = false">
+              <el-button class="cancelButton" @click="dialogVisible = false">
                  取消
               </el-button>
           </span>
@@ -58,15 +61,25 @@ import $ from 'jquery';
 import {useStore} from "vuex";
 import {ElNotification} from "element-plus";
 
+import {VAceEditor} from 'vue3-ace-editor';
+import ace from 'ace-builds';
+
 export default {
   name: "UpdateBot",
-  props:{
+  components: {
+    VAceEditor,
+  },
+  props: {
     row: {
       type: Object,
       required: true,
     },
   },
   setup(props, context) {
+    ace.config.set(
+        "basePath",
+        "https://cdn.jsdelivr.net/npm/ace-builds@" + require('ace-builds').version + "/src-noconflict/")
+
     const dialogVisible = ref(false);
     const store = useStore();
 
@@ -78,7 +91,7 @@ export default {
       error_message: "",
     });
 
-    const successMessage=()=>{
+    const successMessage = () => {
       ElNotification({
         title: '成功',
         message: 'Bot修改成功。',
@@ -102,9 +115,9 @@ export default {
         },
         success(resp) {
           if (resp.error_message === "success") {
-            successMessage();
             context.emit('refresh_bots');
-            $("#cancelButton").trigger('click');
+            $(".cancelButton").trigger('click');
+            successMessage();
           } else {
             botUpdate.error_message = resp.error_message;
             // console.log("push2")
