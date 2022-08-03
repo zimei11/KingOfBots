@@ -20,19 +20,22 @@
               placeholder="请输入Bot简介"
               show-word-limit
               type="textarea"
-              rows="3"
+              rows="2"
           />
         </el-form-item>
-        <el-form-item label="Bot代码">
-          <el-input
-              v-model="botAdd.content"
-              maxlength="10000"
-              placeholder="请输入Bot代码"
-              show-word-limit
-              type="textarea"
-              rows="7"
-          />
-        </el-form-item>
+
+        <p>Bot代码</p>
+        <!--        <el-form-item label="Bot代码">-->
+        <!--        </el-form-item>-->
+        <VAceEditor
+            v-model:value="botAdd.content"
+            lang="c_cpp"
+            :options="{
+              fontSize: 16,
+            }"
+            theme="textmate"
+            style="height: 250px"/>
+
         <p style="color:red" class="error-message">{{ botAdd.error_message }}</p>
       </el-form>
       <template #footer>
@@ -57,9 +60,19 @@ import $ from 'jquery';
 import {useStore} from "vuex";
 import {ElNotification} from "element-plus";
 
+import {VAceEditor} from 'vue3-ace-editor';
+import ace from 'ace-builds';
+
 export default {
   name: "AddBot",
+  components:{
+    VAceEditor,
+  },
   setup(props, context) {
+    ace.config.set(
+        "basePath",
+        "https://cdn.jsdelivr.net/npm/ace-builds@" + require('ace-builds').version + "/src-noconflict/")
+
     const dialogVisible = ref(false);
     const store = useStore();
 
