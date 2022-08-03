@@ -8,6 +8,7 @@
         title="修改Bot"
         width="70%"
         @close="closeDialog"
+        :append-to-body="true"
     >
       <el-form label-width="120px" label-position="top">
         <el-form-item label="Bot名称">
