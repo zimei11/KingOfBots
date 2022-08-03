@@ -55,7 +55,6 @@
 import {reactive, ref} from "vue";
 import $ from 'jquery';
 import {useStore} from "vuex";
-import router from "@/router";
 
 export default {
   name: "AddBot",
@@ -87,7 +86,6 @@ export default {
         success(resp) {
           if (resp.error_message === "success") {
             context.emit('refresh_bots');
-            router.push({name: 'user_bot_index'});
           } else {
             botAdd.error_message = resp.error_message;
             // console.log("push2")
@@ -97,9 +95,9 @@ export default {
     }
 
     const closeDialog = () => {
-      botAdd.title = "";
-      botAdd.description = "";
-      botAdd.content = "";
+      // botAdd.title = "";
+      // botAdd.description = "";
+      // botAdd.content = "";
       botAdd.error_message = "";
     }
 
