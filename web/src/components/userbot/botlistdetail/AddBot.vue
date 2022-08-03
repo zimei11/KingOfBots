@@ -55,6 +55,7 @@
 import {reactive, ref} from "vue";
 import $ from 'jquery';
 import {useStore} from "vuex";
+import {ElNotification} from "element-plus";
 
 export default {
   name: "AddBot",
@@ -69,6 +70,14 @@ export default {
       content: "",
       error_message: "",
     });
+
+    const successMessage=()=>{
+      ElNotification({
+        title: '成功',
+        message: '恭喜您，Bot创建成功。',
+        type: 'success',
+      })
+    }
 
     const add_bot = () => {
       botAdd.error_message = "";
@@ -85,6 +94,7 @@ export default {
         },
         success(resp) {
           if (resp.error_message === "success") {
+            successMessage();
             context.emit('refresh_bots');
             $("#cancelButton").trigger('click');
           } else {
