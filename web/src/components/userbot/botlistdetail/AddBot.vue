@@ -40,7 +40,7 @@
               <el-button @click="add_bot" type="primary">
                 确定
               </el-button>
-              <el-button @click="dialogVisible = false">
+              <el-button id="cancelButton" @click="dialogVisible = false">
                  取消
               </el-button>
           </span>
@@ -86,6 +86,7 @@ export default {
         success(resp) {
           if (resp.error_message === "success") {
             context.emit('refresh_bots');
+            $("#cancelButton").trigger('click');
           } else {
             botAdd.error_message = resp.error_message;
             // console.log("push2")
@@ -95,9 +96,9 @@ export default {
     }
 
     const closeDialog = () => {
-      // botAdd.title = "";
-      // botAdd.description = "";
-      // botAdd.content = "";
+      botAdd.title = "";
+      botAdd.description = "";
+      botAdd.content = "";
       botAdd.error_message = "";
     }
 
