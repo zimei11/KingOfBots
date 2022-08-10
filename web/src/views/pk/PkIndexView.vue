@@ -38,7 +38,7 @@ onMounted(() => {
       setTimeout(()=>{
         store.commit("updateStatus","playing");
       },2000);
-
+      store.commit("updateGamemap",data.gamemap);
     }
   }
 
@@ -49,6 +49,7 @@ onMounted(() => {
 
 onUnmounted(()=>{
   socket.close();
+  store.commit("updateStatus","matching");
 })
 </script>
 
