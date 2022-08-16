@@ -2,12 +2,10 @@ package com.lxs.backend.consumer.utils;
 
 import com.alibaba.fastjson.JSONObject;
 import com.lxs.backend.consumer.WebSocketServer;
-import com.lxs.backend.pojo.Player;
-import jdk.nashorn.internal.ir.CallNode;
 import lombok.Getter;
-import lombok.Setter;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
 import java.util.concurrent.locks.ReentrantLock;
 
@@ -140,8 +138,8 @@ public class Game extends Thread {
                 lock.lock();
                 try {
                     if (nextStepA != null && nextStepB != null) {
-                        playerA.getStep().add(nextStepA);
-                        playerB.getStep().add(nextStepB);
+                        playerA.getSteps().add(nextStepA);
+                        playerB.getSteps().add(nextStepB);
                         return true;
                     }
                 } finally {
@@ -155,8 +153,43 @@ public class Game extends Thread {
         return false;
     }
 
-    private void judge() {//判断两位玩家下一步操作是否成功
+    private boolean check_valid(List<Cell> cellsA, List<Cell> cellsB) {
+        int n = cellsA.size();
+        Cell cell = cellsA.get(n - 1);
+        if (g[cell.x][cell.y] == 1) return false;
 
+        for (int i = 0; i < n - 1; i++) {
+            if (cellsA.get(i).x == cell.x && cellsA.get(i).y == cell.y) {
+                return false;
+            }
+        }
+
+        for (int i = 0; i < n - 1; i++) {
+            if (cellsB.get(i).x == cell.x && cellsB.get(i).y == cell.y) {
+                return false;
+            }
+        }
+
+        return true;
+    }
+
+    private void judge() {//判断两位玩家下一步操作是否成功
+        List<Cell> cellsA = playerA.getCells();
+        List<Cell> cellsB = playerB.getCells();
+
+        boolean validA = check_valid(cellsA, cellsB);
+        boolean validB = check_valid(cellsB, cellsA);
+        if (!validA || !validB) {
+            status = "finished";
+
+            if (!validA && !validB) {
+                loser = "all";
+            } else if (!validA) {
+                loser = "A";
+            } else {
+                loser = "B";
+            }
+        }
     }
 
     private void sendAllMessage(String message) {
@@ -172,8 +205,8 @@ public class Game extends Thread {
             resp.put("a_direction", nextStepA);
             resp.put("b_direction", nextStepB);
             sendAllMessage(resp.toJSONString());
-            nextStepA=nextStepB=null;
-        }finally {
+            nextStepA = nextStepB = null;
+        } finally {
             lock.unlock();
         }
 
