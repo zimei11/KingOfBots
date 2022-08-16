@@ -12,13 +12,16 @@ import {useStore} from "vuex";
 export default {
   name: "GameMap",
   setup() {
-    const store=useStore();
+    const store = useStore();
     let parent = ref(null);
     let canvas = ref(null);
 
     //组件挂载完需要执行的哪些操作
     onMounted(() => {
-      new GameMap(canvas.value.getContext('2d'), parent.value,store);
+      store.commit(
+          "updateGameObject",
+          new GameMap(canvas.value.getContext('2d'), parent.value, store)
+      );
     })
 
     return {
