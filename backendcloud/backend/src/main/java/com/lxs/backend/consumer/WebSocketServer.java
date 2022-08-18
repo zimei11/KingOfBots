@@ -1,11 +1,11 @@
 package com.lxs.backend.consumer;
 
-import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.lxs.backend.consumer.utils.Game;
 import com.lxs.backend.consumer.utils.JwtAuthentication;
 import com.lxs.backend.mapper.RecordMapper;
 import com.lxs.backend.mapper.UserMapper;
+import com.lxs.backend.pojo.Bot;
 import com.lxs.backend.pojo.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -17,20 +17,21 @@ import javax.websocket.*;
 import javax.websocket.server.PathParam;
 import javax.websocket.server.ServerEndpoint;
 import java.io.IOException;
-import java.util.Iterator;
 import java.util.concurrent.ConcurrentHashMap;
-import java.util.concurrent.CopyOnWriteArraySet;
 
 @Component
 @ServerEndpoint("/websocket/{token}")  // 注意不要以'/'结尾
 public class WebSocketServer {
     public static final ConcurrentHashMap<Integer, WebSocketServer> users = new ConcurrentHashMap<>();
     private User user;
+    private Bot bot;
     private Session session = null;
     private static UserMapper userMapper;
     public static RecordMapper recordMapper;
     private static RestTemplate restTemplate;
     private Game game=null;
+    private  static final String addPlayerUrl="http://127.0.0.1:3001/player/add/";
+    private static final String removePlayerUrl="http://127.0.0.1:3001/player/remove/";
 
     @Autowired
     public void setUserMapper(UserMapper userMapper) {
@@ -109,9 +110,14 @@ public class WebSocketServer {
     private void startMatching() {
         MultiValueMap<String,String> data=new LinkedMultiValueMap<>();
         data.add("user_id",this.user.getId().toString());
+        data.add("rating",this.user.getRating().toString());
+        restTemplate.postForObject(addPlayerUrl,data,String.class);
     }
 
     private void stopMatching() {
+        MultiValueMap<String,String> data=new LinkedMultiValueMap<>();
+        data.add("user_id",this.user.getId().toString());
+        restTemplate.postForObject(removePlayerUrl,data,String.class);
     }
 
     private void move(int direction){
