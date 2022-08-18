@@ -5,7 +5,6 @@ import com.lxs.backend.consumer.utils.Game;
 import com.lxs.backend.consumer.utils.JwtAuthentication;
 import com.lxs.backend.mapper.RecordMapper;
 import com.lxs.backend.mapper.UserMapper;
-import com.lxs.backend.pojo.Bot;
 import com.lxs.backend.pojo.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -24,14 +23,13 @@ import java.util.concurrent.ConcurrentHashMap;
 public class WebSocketServer {
     public static final ConcurrentHashMap<Integer, WebSocketServer> users = new ConcurrentHashMap<>();
     private User user;
-    private Bot bot;
     private Session session = null;
     private static UserMapper userMapper;
     public static RecordMapper recordMapper;
     private static RestTemplate restTemplate;
-    private Game game=null;
-    private  static final String addPlayerUrl="http://127.0.0.1:3001/player/add/";
-    private static final String removePlayerUrl="http://127.0.0.1:3001/player/remove/";
+    private Game game = null;
+    private static final String addPlayerUrl = "http://127.0.0.1:3001/player/add/";
+    private static final String removePlayerUrl = "http://127.0.0.1:3001/player/remove/";
 
     @Autowired
     public void setUserMapper(UserMapper userMapper) {
@@ -39,13 +37,13 @@ public class WebSocketServer {
     }
 
     @Autowired
-    public void setRecordMapper(RecordMapper recordMapper){
-        WebSocketServer.recordMapper=recordMapper;
+    public void setRecordMapper(RecordMapper recordMapper) {
+        WebSocketServer.recordMapper = recordMapper;
     }
 
     @Autowired
-    public void setRestTemplate(RestTemplate restTemplate){
-        WebSocketServer.restTemplate=restTemplate;
+    public void setRestTemplate(RestTemplate restTemplate) {
+        WebSocketServer.restTemplate = restTemplate;
     }
 
     @OnOpen
@@ -70,58 +68,62 @@ public class WebSocketServer {
         }
     }
 
-    private void startGame(Integer aId,Integer bId){
-        User a=userMapper.selectById(aId);
-        User b=userMapper.selectById(bId);
+    public static void startGame(Integer aId, Integer bId) {
+        User a = userMapper.selectById(aId);
+        User b = userMapper.selectById(bId);
 
-        Game game=new Game(13,14,20,a.getId(),b.getId());
+        Game game = new Game(13, 14, 20, a.getId(), b.getId());
         game.createMap();
 
-        users.get(a.getId()).game=game;
-        users.get(b.getId()).game=game;
+        if (users.get(a.getId()) != null)
+            users.get(a.getId()).game = game;
+        if (users.get(b.getId()) != null)
+            users.get(b.getId()).game = game;
 
         game.start();
 
-        JSONObject respGame=new JSONObject();
-        respGame.put("a_id",game.getPlayerA().getId());
-        respGame.put("a_sx",game.getPlayerA().getSx());
-        respGame.put("a_sy",game.getPlayerA().getSy());
-        respGame.put("b_id",game.getPlayerB().getId());
-        respGame.put("b_sx",game.getPlayerB().getSx());
-        respGame.put("b_sy",game.getPlayerB().getSy());
-        respGame.put("map",game.getG());
+        JSONObject respGame = new JSONObject();
+        respGame.put("a_id", game.getPlayerA().getId());
+        respGame.put("a_sx", game.getPlayerA().getSx());
+        respGame.put("a_sy", game.getPlayerA().getSy());
+        respGame.put("b_id", game.getPlayerB().getId());
+        respGame.put("b_sx", game.getPlayerB().getSx());
+        respGame.put("b_sy", game.getPlayerB().getSy());
+        respGame.put("map", game.getG());
 
-        JSONObject respA=new JSONObject();
-        respA.put("event","start-matching");
-        respA.put("opponent_username",b.getUsername());
-        respA.put("opponent_photo",b.getPhoto());
-        respA.put("game",respGame);
-        users.get(a.getId()).sendMessage(respA.toJSONString());
+        JSONObject respA = new JSONObject();
+        respA.put("event", "start-matching");
+        respA.put("opponent_username", b.getUsername());
+        respA.put("opponent_photo", b.getPhoto());
+        respA.put("game", respGame);
+        if (users.get(a.getId()) != null)
+            users.get(a.getId()).sendMessage(respA.toJSONString());
 
-        JSONObject respB=new JSONObject();
-        respB.put("event","start-matching");
-        respB.put("opponent_username",a.getUsername());
-        respB.put("opponent_photo",a.getPhoto());
-        respB.put("game",respGame);
-        users.get(b.getId()).sendMessage(respB.toJSONString());
+        JSONObject respB = new JSONObject();
+        respB.put("event", "start-matching");
+        respB.put("opponent_username", a.getUsername());
+        respB.put("opponent_photo", a.getPhoto());
+        respB.put("game", respGame);
+        if (users.get(b.getId()) != null)
+            users.get(b.getId()).sendMessage(respB.toJSONString());
 
     }
 
     private void startMatching() {
-        MultiValueMap<String,String> data=new LinkedMultiValueMap<>();
-        data.add("user_id",this.user.getId().toString());
-        data.add("rating",this.user.getRating().toString());
-        restTemplate.postForObject(addPlayerUrl,data,String.class);
+        MultiValueMap<String, String> data = new LinkedMultiValueMap<>();
+        data.add("user_id", this.user.getId().toString());
+        data.add("rating", this.user.getRating().toString());
+        restTemplate.postForObject(addPlayerUrl, data, String.class);
     }
 
     private void stopMatching() {
-        MultiValueMap<String,String> data=new LinkedMultiValueMap<>();
-        data.add("user_id",this.user.getId().toString());
-        restTemplate.postForObject(removePlayerUrl,data,String.class);
+        MultiValueMap<String, String> data = new LinkedMultiValueMap<>();
+        data.add("user_id", this.user.getId().toString());
+        restTemplate.postForObject(removePlayerUrl, data, String.class);
     }
 
-    private void move(int direction){
-        if(game.getPlayerA().getId().equals(user.getId())){
+    private void move(int direction) {
+        if (game.getPlayerA().getId().equals(user.getId())) {
             game.setNextStepA(direction);
         } else if (game.getPlayerB().getId().equals(user.getId())) {
             game.setNextStepB(direction);
@@ -137,7 +139,7 @@ public class WebSocketServer {
             startMatching();
         } else if ("stop-matching".equals(event)) {
             stopMatching();
-        } else if("move".equals(event)){
+        } else if ("move".equals(event)) {
             move(data.getInteger("direction"));
         }
     }
