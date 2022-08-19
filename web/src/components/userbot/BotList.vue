@@ -12,7 +12,7 @@
       >
         <el-table-column fixed prop="title" label="Bot名称" width="120" show-overflow-tooltip/>
         <el-table-column prop="description" label="简介" width="300" show-overflow-tooltip/>
-        <el-table-column prop="rating" label="积分" width="120"/>
+<!--        <el-table-column prop="rating" label="积分" width="120"/>-->
         <el-table-column prop="createTime" label="创建时间" width="165"/>
         <el-table-column prop="modifyTime" label="修改时间" width="165"/>
         <el-table-column fixed="right" label="操作" width="120">
