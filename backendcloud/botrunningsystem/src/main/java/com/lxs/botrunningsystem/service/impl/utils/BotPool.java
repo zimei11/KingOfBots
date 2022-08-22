@@ -29,7 +29,8 @@ public class BotPool extends Thread{
      * Java代码里运行终端命令，开启一个限制空间的Docker
      */
     private void consume(Bot bot){
-
+        Consumer consumer=new Consumer();
+        consumer.startTimeout(2000,bot);
     }
 
     @Override
