@@ -3,39 +3,41 @@
     <el-card>
       <template #header>
         <div class="card-header">
-          <span class="title-text">我的Bot</span>
+          <span>对局列表</span>
         </div>
-
-        <el-table
-            :data="records"
-            style="width: 100%"
-            :row-class-name="tableRowClassName"
-        >
-
-          <el-table-column prop="a_photo" label="蓝色方" show-overflow-tooltip>
-            <template #default="scope">
-              <img :src="scope.row.a_photo" class="record-user-photo"/>
-            </template>
-          </el-table-column>
-          <el-table-column prop="a_username" label="玩家A" show-overflow-tooltip/>
-          <el-table-column prop="b_photo" label="红色方" show-overflow-tooltip>
-            <template #default="scope">
-              <img :src="scope.row.b_photo" class="record-user-photo"/>
-            </template>
-          </el-table-column>
-          <el-table-column prop="b_username" label="玩家B" show-overflow-tooltip/>
-          <el-table-column prop="result" label="对战结果" width=""/>
-          <el-table-column prop="record.createtime" label="对战时间" width=""/>
-          <el-table-column fixed="right" label="操作" width="120">
-            <template #default="scope">
-              <el-button link type="primary" @click="open_record_content(scope.row.record.id)">
-                对局回放
-              </el-button>
-            </template>
-          </el-table-column>
-        </el-table>
       </template>
+      <el-table
+          :data="records"
+          style="width: 100%"
+          :row-class-name="tableRowClassName"
+      >
+
+        <el-table-column prop="a_photo" label="蓝色方" show-overflow-tooltip>
+          <template #default="scope">
+            <img :src="scope.row.a_photo" class="record-user-photo"/>
+          </template>
+        </el-table-column>
+        <el-table-column prop="a_username" label="玩家A" show-overflow-tooltip/>
+        <el-table-column prop="b_photo" label="红色方" show-overflow-tooltip>
+          <template #default="scope">
+            <img :src="scope.row.b_photo" class="record-user-photo"/>
+          </template>
+        </el-table-column>
+        <el-table-column prop="b_username" label="玩家B" show-overflow-tooltip/>
+        <el-table-column prop="result" label="对战结果" width=""/>
+        <el-table-column prop="record.createtime" label="对战时间" width=""/>
+        <el-table-column fixed="right" label="操作" width="120">
+          <template #default="scope">
+            <el-button link type="primary" @click="open_record_content(scope.row.record.id)">
+              对局回放
+            </el-button>
+          </template>
+        </el-table-column>
+      </el-table>
     </el-card>
+    <div class="foot-pagination">
+      <el-pagination layout="prev, pager, next" :total="1000"/>
+    </div>
   </ContentBase>
 </template>
 
@@ -109,20 +111,20 @@ const open_record_content = (recordId) => {
     if (record.record.id === recordId) {
       store.commit("updateIsRecord", true);
       // console.log(record);
-      store.commit("updateGame",{
-        map:stringTo2D(record.record.map),
-        a_id:record.record.aid,
-        a_sx:record.record.asx,
-        a_sy:record.record.asy,
-        b_id:record.record.bid,
-        b_sx:record.record.bsx,
-        b_sy:record.record.bsy
+      store.commit("updateGame", {
+        map: stringTo2D(record.record.map),
+        a_id: record.record.aid,
+        a_sx: record.record.asx,
+        a_sy: record.record.asy,
+        b_id: record.record.bid,
+        b_sx: record.record.bsx,
+        b_sy: record.record.bsy
       });
-      store.commit("updateSteps",{
-        a_steps:record.record.asteps,
-        b_steps:record.record.bsteps,
+      store.commit("updateSteps", {
+        a_steps: record.record.asteps,
+        b_steps: record.record.bsteps,
       });
-      store.commit("updateRecordLoser",record.record.loser);
+      store.commit("updateRecordLoser", record.record.loser);
       router.push({
         name: "record_content",
         params: {
@@ -143,10 +145,9 @@ const open_record_content = (recordId) => {
   vertical-align: middle;
 }
 
-.title-text {
-  /*font-size: 20px;*/
-  /*font-weight: 400;*/
-  /*font-style: italic;*/
-  margin-bottom: 10px;
+.foot-pagination{
+  margin-top: 10px;
+  float:right;
+  margin-bottom: 20px;
 }
 </style>
