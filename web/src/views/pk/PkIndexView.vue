@@ -15,6 +15,7 @@ import {useStore} from 'vuex'
 import MatchGround from "@/components/MatchGround";
 import {ElNotification} from 'element-plus'
 import ResultBoard from "@/components/ResultBoard";
+import { h } from 'vue'
 
 const store = useStore();
 const socketUrl = `ws://localhost:3000/websocket/${store.state.user.token}/`;
@@ -42,12 +43,14 @@ onMounted(() => {
         photo: data.opponent_photo,
       });
 
-      successMessage();
-
       setTimeout(() => {
         store.commit("updateStatus", "playing");
       }, 200);
       store.commit("updateGame", data.game);
+      // setTimeout(()=>{
+      //   successMessage();
+      // },200);
+      userNotice();
     } else if (data.event === "move") {
       // console.log(data);
       const game = store.state.pk.gameObject;
@@ -79,13 +82,28 @@ onUnmounted(() => {
   store.commit("updateStatus", "matching");
 });
 
-const successMessage = () => {
+// const successMessage = () => {
+//   ElNotification({
+//     title: '匹配成功',
+//     message: '全军出击！╰(￣ω￣ｏ)',
+//     type: 'success',
+//   })
+// };
+
+
+const userNotice = () => {
+  let player_camp=(store.state.pk.a_id===parseInt(store.state.user.id))?"蓝":"红";
+  let text_color="";
+  if(player_camp==='蓝') text_color="#0066FF";
+  else if(player_camp==='红') text_color="#E63F00";
+  // console.log(store.state.pk.a_id);
+  // console.log(store.state.user.id);
   ElNotification({
-    title: '匹配成功',
-    message: '全军出击！╰(￣ω￣ｏ)',
-    type: 'success',
+    title: '游戏开始',
+    message: h('i', { style: 'color: '+text_color },'你出生在'+player_camp+"色方"),
+    duration: 5000,
   })
-};
+}
 </script>
 
 <style scoped>
