@@ -1,6 +1,7 @@
-package com.lxs.backend.controller.record;
+package com.lxs.backend.controller.ranklist;
 
 import com.alibaba.fastjson.JSONObject;
+import com.lxs.backend.service.ranklist.GetRankListService;
 import com.lxs.backend.service.record.GetRecordListService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -10,13 +11,13 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.Map;
 
 @RestController
-public class GetRecordListController {
+public class GetRankListController {
     @Autowired
-    private GetRecordListService getRecordListService;
+    private GetRankListService getRankListService;
 
-    @GetMapping("/record/getlist/")
+    @GetMapping("/ranklist/getlist/")
     public JSONObject getList(@RequestParam Map<String,String> data){
         Integer page=Integer.parseInt(data.get("page"));
-        return getRecordListService.getList(page);
+        return getRankListService.getList(page);
     }
 }
