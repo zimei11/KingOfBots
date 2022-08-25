@@ -36,7 +36,12 @@
       </el-table>
     </el-card>
     <div class="foot-pagination">
-      <el-pagination layout="prev, pager, next" :total="1000"/>
+      <el-pagination
+          :page-size="10"
+          layout="prev, pager, next"
+          :total="state.total_records"
+          @current-change="pull_page"
+      />
     </div>
   </ContentBase>
 </template>
@@ -45,18 +50,19 @@
 import ContentBase from "@/components/ContentBase";
 import {useStore} from "vuex";
 import $ from 'jquery';
-import {ref} from "vue";
+import {reactive, ref} from "vue";
 import router from "@/router/index";
 
 const store = useStore();
 let records = ref([]);
-let current_page = 1;
-let total_records = 0;
 
-console.log(total_records);
+const state=reactive({
+  current_page : 1,
+  total_records : 0,
+})
 
 const pull_page = page => {
-  current_page = page;
+  state.current_page = page;
   $.ajax({
     url: ("http://127.0.0.1:3000/record/getlist/"),
     data: {
@@ -68,7 +74,7 @@ const pull_page = page => {
     },
     success(resp) {
       records.value = resp.records;
-      total_records = resp.records_count;
+      state.total_records = resp.records_count;
     },
     error(resp) {
       console.log(resp);
@@ -76,7 +82,7 @@ const pull_page = page => {
   });
 }
 
-pull_page(current_page);
+pull_page(state.current_page);
 
 const stringTo2D = (map) => {
   let g = [];
