@@ -15,7 +15,7 @@ export default {
       message: [
         {text: "今日热门游戏", url: "https://www.zimei.fun/pk/", id: 1},
         {text: "这款AI居然战无不胜ˋ( ° ▽、° ) ", url: "https://www.zimei.fun/user/bot/", id: 2},
-        {text: "打赏下孩子吧(￣﹃￣)", url: "https://img.zimei.fun/202208251444029.jpg", id: 3},
+        {text: "觉得不错？欢迎打赏(￣﹃￣)", url: "https://img.zimei.fun/202208251444029.jpg", id: 3},
       ]
     }
   },
